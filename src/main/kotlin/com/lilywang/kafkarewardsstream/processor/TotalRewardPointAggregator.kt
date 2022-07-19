@@ -21,9 +21,10 @@ class TotalRewardPointAggregator(
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
+    //Use different stream builder
     @Autowired
-    fun buildPipeline(streamsBuilder: StreamsBuilder) {
-        val transactionStream: KStream<String, Transaction> = streamsBuilder
+    fun buildPipeline(defaultKafkaStreamsBuilder: StreamsBuilder) {
+        val transactionStream: KStream<String, Transaction> = defaultKafkaStreamsBuilder
             .stream("expenses", Consumed.with(STRING_SERDE, customSerdes.transactionSerde()))
 
         val totalRewards: KTable<String, TotalRewards> = transactionStream

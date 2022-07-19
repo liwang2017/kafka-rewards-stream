@@ -12,7 +12,7 @@ data class TotalRewards (
 
 data class MonthlyRewards(
     val accountId: String,
-    val month: YearMonth,
+    val month: YearMonth?,
     val rewardsPoint: Long
 )
 
