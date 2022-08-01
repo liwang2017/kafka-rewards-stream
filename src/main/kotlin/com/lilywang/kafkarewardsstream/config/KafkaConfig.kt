@@ -31,6 +31,9 @@ class KafkaConfig {
         return KafkaStreamsConfiguration(props)
     }
 
+    /**
+     * Create Kafka Stream Configuration Bean for Daily Rewards Stream
+     */
     @Bean
     fun dailyRewardsStreamConfig(kafkaConfigProperties: Properties): KafkaStreamsConfiguration
     {
@@ -40,15 +43,9 @@ class KafkaConfig {
         return KafkaStreamsConfiguration(props)
     }
 
-    @Bean
-    fun monthlyRewardsStreamConfig(kafkaConfigProperties: Properties): KafkaStreamsConfiguration
-    {
-        val props: MutableMap<String, Any> = HashMap()
-        props[APPLICATION_ID_CONFIG] = "monthly-rewards-stream"
-        props.putAll(kafkaConfigProperties.toMap() as Map<String, String>)
-        return KafkaStreamsConfiguration(props)
-    }
-
+    /**
+     * Create Kafka Stream Builder Bean for Daily Rewards Stream
+     */
     @Bean
     fun dailyRewardsKafkaStreamsBuilder(
         dailyRewardsStreamConfig: KafkaStreamsConfiguration,
@@ -69,6 +66,21 @@ class KafkaConfig {
         return fb
     }
 
+    /**
+     * Create Kafka Stream Configuration Bean for Monthly Rewards Stream
+     */
+    @Bean
+    fun monthlyRewardsStreamConfig(kafkaConfigProperties: Properties): KafkaStreamsConfiguration
+    {
+        val props: MutableMap<String, Any> = HashMap()
+        props[APPLICATION_ID_CONFIG] = "monthly-rewards-stream"
+        props.putAll(kafkaConfigProperties.toMap() as Map<String, String>)
+        return KafkaStreamsConfiguration(props)
+    }
+
+    /**
+     * Create Kafka Stream Builder Bean for Monthly Rewards Stream
+     */
     @Bean
     fun monthlyRewardsKafkaStreamsBuilder(
         monthlyRewardsStreamConfig: KafkaStreamsConfiguration,
@@ -88,6 +100,9 @@ class KafkaConfig {
         return fb
     }
 
+    /**
+     * Load properties from resource file into Properties Bean
+     */
     @Bean
     @ConfigurationProperties(prefix = "kafka")
     fun kafkaConfigProperties() = Properties()

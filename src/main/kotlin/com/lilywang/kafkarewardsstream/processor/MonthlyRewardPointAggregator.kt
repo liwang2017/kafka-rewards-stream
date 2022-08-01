@@ -2,7 +2,6 @@ package com.lilywang.kafkarewardsstream.processor
 
 
 import com.lilywang.kafkarewardsstream.model.CustomSerdes
-import com.lilywang.kafkarewardsstream.model.DailyRewards
 import com.lilywang.kafkarewardsstream.model.MonthlyRewards
 import com.lilywang.kafkarewardsstream.model.Transaction
 import org.apache.kafka.common.serialization.Serdes
@@ -13,10 +12,14 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 import java.time.YearMonth
 
-
+/**
+ * Monthly Rewards Stream Processor
+ * Key = AccountId#YearMonth
+ *
+ * Transactions are aggregated by key
+ */
 @Component
 class MonthlyRewardPointAggregator(
     val customSerdes: CustomSerdes

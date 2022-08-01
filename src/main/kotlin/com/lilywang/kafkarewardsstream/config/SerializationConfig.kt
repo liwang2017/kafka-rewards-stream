@@ -23,6 +23,9 @@ import java.time.format.DateTimeFormatter
 @Configuration
 class SerializationConfig {
 
+    /**
+     * Setup ObjectMapper bean for Serialization/Deserialization
+     */
     @Bean
     fun objectMapper(): ObjectMapper {
         val module = JavaTimeModule()

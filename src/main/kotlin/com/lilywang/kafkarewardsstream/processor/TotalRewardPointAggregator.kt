@@ -12,7 +12,12 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-
+/**
+ * Total Rewards Stream Processor
+ * Key = AccountId
+ *
+ * Transactions are aggregated by key
+ */
 @Component
 class TotalRewardPointAggregator(
     val customSerdes: CustomSerdes

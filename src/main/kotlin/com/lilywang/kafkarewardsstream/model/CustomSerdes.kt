@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component
 import java.nio.charset.Charset
 
 
+/**
+ * Customized Serdes for internal data types
+ */
 @Component
 class CustomSerdes(
     val transactionSerializer: TransactionSerializer,

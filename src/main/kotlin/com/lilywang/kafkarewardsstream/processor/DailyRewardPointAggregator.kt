@@ -14,7 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
-
+/**
+ * Daily Rewards Stream Processor
+ * Key = AccountId#Date
+ *
+ * Transactions are aggregated by key
+ */
 @Component
 class DailyRewardPointAggregator(
     val customSerdes: CustomSerdes
@@ -22,8 +27,6 @@ class DailyRewardPointAggregator(
     private val STRING_SERDE = Serdes.String()
 
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
-
-
 
     @Autowired
     fun buildPipeline(dailyRewardsKafkaStreamsBuilder: StreamsBuilder) {
