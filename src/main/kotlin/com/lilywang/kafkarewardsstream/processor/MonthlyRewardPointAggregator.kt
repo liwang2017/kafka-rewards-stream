@@ -30,9 +30,11 @@ class MonthlyRewardPointAggregator(
 
     @Autowired
     fun buildPipeline(monthlyRewardsKafkaStreamsBuilder: StreamsBuilder) {
+        //Consume from topic expense
         val transactionStream: KStream<String, Transaction> = monthlyRewardsKafkaStreamsBuilder
             .stream("expenses", Consumed.with(STRING_SERDE, customSerdes.transactionSerde()))
 
+        //Aggregate to MonthlyRewards by key AccountId#YearMonth
         val monthlyRewards: KTable<String, MonthlyRewards> = transactionStream
             .map { accountId, transaction ->
                 KeyValue(
@@ -51,9 +53,11 @@ class MonthlyRewardPointAggregator(
                 Materialized.with(STRING_SERDE, customSerdes.monthlyRewardsSerde())
             )
 
+        //publish result to topic monthly_feed
         monthlyRewards.toStream().to("monthly_feed", Produced.with(Serdes.String(), customSerdes.monthlyRewardsSerde()))
     }
 
+    //Setup initial value for aggregator
     private fun initialize(): MonthlyRewards = MonthlyRewards("dummyId", YearMonth.now(), 0L)
 
     private fun aggregateRewards(key: String, newRewards: MonthlyRewards, aggregatedRewards: MonthlyRewards): MonthlyRewards {

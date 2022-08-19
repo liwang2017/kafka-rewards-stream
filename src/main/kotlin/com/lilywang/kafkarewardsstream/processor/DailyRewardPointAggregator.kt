@@ -30,9 +30,11 @@ class DailyRewardPointAggregator(
 
     @Autowired
     fun buildPipeline(dailyRewardsKafkaStreamsBuilder: StreamsBuilder) {
+        //Consume from topic expense
         val transactionStream: KStream<String, Transaction> = dailyRewardsKafkaStreamsBuilder
             .stream("expenses", Consumed.with(STRING_SERDE, customSerdes.transactionSerde()))
 
+        //Aggregate to DailyRewards by key AccountId#Date
         val dailyRewards: KTable<String, DailyRewards> = transactionStream
             .map { accountId, transaction ->
                 KeyValue(
@@ -51,9 +53,11 @@ class DailyRewardPointAggregator(
                 Materialized.with(STRING_SERDE, customSerdes.dailyRewardsSerde())
             )
 
+        //publish result to topic daily_feed
         dailyRewards.toStream().to("daily_feed", Produced.with(Serdes.String(), customSerdes.dailyRewardsSerde()))
     }
 
+    //Setup initial value for aggregator
     private fun initialize(): DailyRewards = DailyRewards("dummyId", LocalDate.now(), 0L)
 
     private fun aggregateRewards(key: String, newRewards: DailyRewards, aggregatedRewards: DailyRewards): DailyRewards {
