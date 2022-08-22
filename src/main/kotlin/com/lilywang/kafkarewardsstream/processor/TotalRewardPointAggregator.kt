@@ -46,7 +46,7 @@ class TotalRewardPointAggregator(
                 Materialized.with(STRING_SERDE, customSerdes.totalRewardsSerde())
             )
 
-        totalRewards.toStream().to("total_rewards", Produced.with(Serdes.String(), customSerdes.totalRewardsSerde()))
+        totalRewards.toStream().to("total_points", Produced.with(Serdes.String(), customSerdes.totalRewardsSerde()))
     }
 
     private fun initialize(): TotalRewards = TotalRewards("dummyId", 0L)

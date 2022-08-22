@@ -54,7 +54,7 @@ class MonthlyRewardPointAggregator(
             )
 
         //publish result to topic monthly_feed
-        monthlyRewards.toStream().to("monthly_feed", Produced.with(Serdes.String(), customSerdes.monthlyRewardsSerde()))
+        monthlyRewards.toStream().to("monthly_points", Produced.with(Serdes.String(), customSerdes.monthlyRewardsSerde()))
     }
 
     //Setup initial value for aggregator

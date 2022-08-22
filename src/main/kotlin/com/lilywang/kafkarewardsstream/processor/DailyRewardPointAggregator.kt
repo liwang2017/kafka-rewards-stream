@@ -54,7 +54,7 @@ class DailyRewardPointAggregator(
             )
 
         //publish result to topic daily_feed
-        dailyRewards.toStream().to("daily_feed", Produced.with(Serdes.String(), customSerdes.dailyRewardsSerde()))
+        dailyRewards.toStream().to("daily_points", Produced.with(Serdes.String(), customSerdes.dailyRewardsSerde()))
     }
 
     //Setup initial value for aggregator
